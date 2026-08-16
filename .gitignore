@@ -4,3 +4,6 @@ __pycache__/
 
 # Cached paper text / downloads
 .cache/
+
+# blogpost draft
+post.md

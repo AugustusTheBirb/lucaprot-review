@@ -1,5 +1,7 @@
 # Reproducing every number in the post
 
+Note on AI use: all of the code for this project was written with the help of claude code with Opus 5. Design, ideas and mistakes are my own. 
+
 The post argues that LucaProt's evaluation doesn't measure what it's cited for.
 A post making that argument shouldn't ask you to take its own numbers on trust.
 
