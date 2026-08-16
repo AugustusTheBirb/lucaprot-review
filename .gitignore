@@ -1,0 +1,6 @@
+# Python
+__pycache__/
+*.pyc
+
+# Cached paper text / downloads
+.cache/

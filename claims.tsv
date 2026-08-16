@@ -1,0 +1,190 @@
+id	value	tol	tier	where
+# Every number that appears in the blog post, with the value as written there.
+# run_all.py diffs this against what the scripts compute. The scripts never read
+# this file, so agreement is a real check rather than a tautology.
+#
+# tier  P  quoted from the paper, verified present in its text        (01)
+#       A  arithmetic on paper-reported values                        (01)
+#       D  computed from the released data                            (02, 03)
+#       S  read out of the authors' released source code              (04)
+#       R  computed from our own model runs                           (05, 06, 07, 08)
+#       E  eyeballed off a raster figure panel - cannot be automated
+#       M  run by hand, see README
+#
+# tol   blank = must match exactly. A number = permitted absolute difference,
+#       used only where the quantity is genuinely unstable and the README says
+#       why. Three rows have one; nothing else is allowed to drift.
+#
+# where "[cut]" marks a value the FINAL post does not quote. It was in an
+#       earlier draft, it still computes, and it still has to match - but a
+#       MISMATCH on a [cut] row is a drift in the underlying data, not an error
+#       in the post. Roughly a third of the registry is [cut]: the post was
+#       rewritten shorter and dropped the DIAMOND e-value detail, the control
+#       tables, the dipeptide baseline and the parameter counts.
+#
+# --- what the paper reports -------------------------------------------------
+paper.fpr_pct	0.014% false positives		P	"their own reported rate is 0.014%"
+paper.fnr_pct	1.72% false negatives		P	[cut] background, Figure 1B
+paper.n_proteins_screened	144.6 million proteins		P	"Against 144.6 million proteins"
+paper.n_calls	792,436		P	[cut] "from which it called 792,436 putative RdRps"
+paper.n_shared_contigs	512,690		P	"99.9% of the viral contigs were found by both"
+paper.n_unique_contigs	444		P	"444 contigs and 23 supergroups that only LucaProt found"
+paper.n_unique_supergroups	23 supergroups		P	same sentence
+paper.n_metatranscriptomes	10,487		P	intro, "10,487 metatranscriptomes"
+paper.n_species	161,979		P	intro, "161,979 new viral species"
+paper.n_supergroups	180 RNA viral super-		P	intro, "180 supergroups"
+paper.n_negatives	229,434		P	[cut] not quoted directly; underpins section 5.2
+paper.rt_stated	n=48,490		P	[cut] "the paper says there are 48,490 reverse transcriptases"
+paper.ablation_no_esm2	44.5%		P	"if you remove ESM-2, the recall drops to 44%" (post rounds)
+paper.fold_expansion	8.6-fold expansion		P	"This is an 8.6-fold expansion of RNA virus diversity"
+paper.ictv_supergroups	21 contained those from viral phyla/classes		P	"only 21 contain anything currently classified by the ICTV"
+paper.rtpcr_new	Supergroup102, Supergroup167, Supergroup175		P	"RT-PCR validation, but only on 5 groups"
+paper.rtpcr_supergroups	17 of the 115 RNA viral supergroups		P	[cut] context for the sentence above
+# Figure S2 panel values live inside a raster image; read by eye, not extractable.
+paper.test_accuracy	0.999955		E	"Accuracy 0.99+" (post rounds; exact value is on the Fig S2 panel)
+paper.test_auc	0.99999991		E	"AUC 0.99+" (post rounds; exact value is on the Fig S2 panel)
+paper.cv_perfect_folds	6		E	"Six of their ten cross-validation folds make zero mistakes"
+# Figure 3A is a raster panel too, so the 0.023% cannot be extracted from text.
+paper.fpr_fig3a	0.023%		E	"This is the best number the paper offers, and it is 0.023%"
+#
+# --- the false-positive argument --------------------------------------------
+fp.expected	20244		A	"roughly 20,000 expected false positives"
+fp.ratio_to_unique	46		A	"about 46 times the number of unique contigs"
+fp_fig3a.expected	33258		A	"0.023% - 33,000 expected false positives"
+paper.shared_contig_pct	99.9		A	"99.9% of the viral contigs were found by both"
+#
+# --- the released splits ----------------------------------------------------
+split.train_rows	190846		D	"LucaProt's split was 190k / 22k / 22k"
+split.test_rows	22284		D	same
+split.train_pos	4900		D	motif table, "their 4,900 training positives"
+split.test_pos	540		D	"it gets 539 of 540 positives"
+split.test_neg	21744		D	"0 false positives out of 22k negatives"
+split.rt_train	10000		D	"All 10,000 sequences labelled rt ... are in training"
+split.rt_test	0		D	"and none are in test"
+split.dna_train	2000		D	"all 2,000 labelled dna"
+split.dna_test	0		D	same
+split.test_hard_neg	160		D	"160 non-RdRP viral proteins"
+split.test_cellular	21584		D	"against 21,584 cellular ones"
+split.train_cellular	172672		D	"170k random cellular proteins for good measure"
+rt_incidental.test	47		D	[cut] "~50 reverse transcriptases ... under the non_virus label"
+rt_incidental.train	408		D	[cut] same paragraph
+dup.test_pos_identical	30		D	[cut] "30 of 540 test positives are byte-identical"
+dup.test_pos_identical_pct	5.6		D	[cut] "(5.6%)"
+dup.train_pos_distinct	4758		D	[cut] not in the post; kept as a supporting figure
+#
+# --- homology leakage -------------------------------------------------------
+leak.with_homolog	540		D	[cut] "all 540 test positives are found by DIAMOND blastp"
+leak.without_homolog	0		D	[cut] implied by the same sentence
+leak.e10	540		D	[cut] "at e <= 1e-10"
+leak.e_exactly_zero	333		D	[cut] "333 of them hit at e exactly 0.0"
+leak.e_exactly_zero_pct	61.7		D	[cut] "(61.7%)"
+leak.worst_evalue	4.8e-13		D	[cut] "the worst single test positive comes in at e = 4.8e-13"
+leak.median_identity	54.4		D	"Median identity is 54%"
+leak.ge90_pct	15.0		D	[cut] "15.0% of test positives sit at >=90% identity"
+leak.ge30_pct	85.6		D	"85.6% of test positives had a corresponding protein ... 30% similar"
+baseline.diamond_recall_pct	100.0		D	[cut] "gets 540/540 = 100% recall on that test set"
+#
+# --- how the split was built ------------------------------------------------
+build.base_train	178262		S	[cut] "a base dataset split an exact 8:1:1 - 178,262 / 22,284 / 22,284"
+build.base_dev	22284		S	[cut] same
+build.base_test	22284		S	[cut] same
+build.rt_retrieved	81867		S	[cut] "81,867 reverse transcriptases were retrieved"
+build.rt_filtered	31843		S	[cut] "31,843 survived a length filter"
+build.rt_kept	10000		S	[cut] "shuffled and truncated to exactly 10,000"
+build.dna_candidates	10249		S	[cut] "DNA virus proteins went 10,249 -> 2,000"
+build.dna_kept	2000		S	[cut] same
+build.rt_preexisting_test	53		S	[cut] "the authors' own build log counts 53"
+build.augmented_splits	train		S	[cut] "appended to the training set only"
+build.appended_total	12583		S	"you can see that it's short about 12k"
+build.base_dataset	222830		S	[cut] the other half of that subtraction
+#
+# --- the orphan benchmark ---------------------------------------------------
+orph.benchmark_size	2874		R	motif table, "positive control - orphan RdRPs"
+orph.orphans_n	2380		R	"after running against 2.4k sequences"
+orph.orphans_pct	97.73		R	"it has a recall of 97.7%" / "their 97.73%"
+orph.orphans_ci_lo	97.1		R	[cut] "(95% CI 97.1-98.3)"
+orph.orphans_ci_hi	98.3		R	[cut] same
+orph.control_pos_pct	99.60		R	[cut] table row, 99.60%
+orph.control_neg_pct	0.00		R	[cut] table row, 0.00%
+orph.control_neg_ci_hi	1.5		R	[cut] "a 95% upper bound of 1.5%"
+#
+# --- the probe and its controls ---------------------------------------------
+probe.dims	2560		R	"how many of the 2,560 dimensions that ESM-2 works with"
+probe.params	2561		R	[cut] "2,561 parameters and one second of fitting"
+probe.orphan_recall	97.74		R	"97.74% against their 97.73%"
+ctrl.composition	0.84		R	[cut] control table, "amino acid composition, 21 features"
+ctrl.shuffled	0.03	0.05	R	[cut] control table, "ESM-2 features, labels shuffled"
+ctrl.length	0.00		R	[cut] control table, "length alone"
+dims.top5	0.03		R	[cut] "the top 5 give you 0.03%"
+dims.top10	29.44		R	[cut] "10 give 29.44%"
+dims.l1_count	14	1	R	"about 14 of them get you within 2.4 points of the full model"
+dims.l1_recall	95.34	0.5	R	same (97.74 - 95.34 = 2.4 points)
+len.median_pos	1617		R	"median ~1.6k vs ~300 amino acids"
+len.median_neg	332		R	same
+len.auc_probe_test	0.9303		R	"Classifying just on sequence length alone gets you an AUC of 0.93"
+comp.dipep_auc	0.9966		R	[cut] "400 hand-made dipeptide-count features ... reach AUC 0.9966"
+comp.dipep_orphan_recall	3.76		R	[cut] "while detecting 3.76% of actual novel RdRps"
+#
+# --- LucaProt's own unreported XGBoost baseline (12) -------------------------
+xgb.their_rounds	50		S	"they had set iterations to only 50"
+xgb.converged_recall	97.49		R	"I ran it with more iterations and it converged to ~97%"
+xgb.their_pos_weight	40		S	[cut] the other half of why 50 rounds cannot converge
+#
+# --- the measured false-positive panel (09) ---------------------------------
+# Every row of the FPR table in the post. Threshold 0.5, sequences screened to
+# have no RdRP homology and no membership in LucaProt's splits.
+panel.cell_short_n	16671		R	FPR table, "cellular, short (<2,500 aa)"
+panel.cell_short_fp	0		R	same row
+panel.cell_short_pct	0.000		R	same row
+panel.phage_n	7951		R	FPR table, "bacteriophage"
+panel.phage_fp	0		R	same row
+panel.phage_pct	0.000		R	same row
+panel.rt_n	3728		R	FPR table, "prokaryotic mobile-element RT"
+panel.rt_fp	0		R	same row
+panel.rt_pct	0.000		R	same row
+panel.prok_all_n	28350		R	FPR table, "all prokaryotic + phage"
+panel.prok_all_fp	0		R	same row
+panel.prok_all_pct	0.000		R	same row
+panel.cell_long_n	6090		R	FPR table, "cellular, long (>=2,500 aa)"
+panel.cell_long_fp	24		R	same row
+panel.cell_long_pct	0.394		R	same row
+panel.dnavirus_short_n	9565		R	FPR table, "eukaryotic DNA virus, 300-999 aa"
+panel.dnavirus_short_fp	133		R	same row
+panel.dnavirus_short_pct	1.390		R	same row
+panel.rnavirus_n	4471		R	FPR table, "eukaryotic RNA virus non-RdRP, short"
+panel.rnavirus_fp	202		R	same row
+panel.rnavirus_pct	4.518		R	same row
+panel.dnavirus_mid_n	4941		R	FPR table, "eukaryotic DNA virus, 1,000-2,499 aa"
+panel.dnavirus_mid_fp	252		R	same row
+panel.dnavirus_mid_pct	5.100		R	same row
+panel.cell_long_ubiquitinyl	6		R	"6 ubiquitinyl hydrolases"
+panel.cell_long_seca	4		R	"4 SecA-family"
+panel.cell_long_polymerase	3		R	"only 3 actual polymerases"
+#
+# --- the motif check, which came back clean (10) ----------------------------
+motif.train_pos_n	4900		R	motif table, "their 4,900 training positives"
+motif.train_pos_pct	49.9		R	same row
+motif.orphan_n	2874		R	motif table, "orphan RdRPs"
+motif.orphan_pct	23.1		R	same row
+motif.null_n	39098		R	motif table, "cellular/phage/RT, definitely not RdRP"
+motif.null_pct	0.13		R	same row
+motif.claimed_n	513134		R	motif table, "their 513,134 claimed RdRPs"
+motif.claimed_pct	31.9		R	same row
+#
+# --- Table S4 (11) ----------------------------------------------------------
+# Computed and stable, but no section of the post quotes them yet; see
+# obsidian/blogpost_revisions.md section 5. They show up as EXTRA until the
+# section lands, at which point uncomment the rows that get used.
+s4.ictv_supergroups	21		R	"only 21 contain anything currently classified by the ICTV"
+# s4.ai_only	13903		R	"13,903 sequences rest on LucaProt's call alone"
+# s4.ai_only_pct	2.71		R	same sentence
+# s4.no_method	6414		R	"detected by no method at all"
+# s4.no_method_pct	1.25		R	same sentence
+# s4.zero_homology_supergroups	7		R	"seven supergroups have no homology support"
+# s4.supergroup193_n	10		R	"Supergroup193 ... ten sequences"
+#
+# --- what the model is made of ----------------------------------------------
+model.params_total	23686402		R	[cut] "Of 23.7M trainable parameters"
+model.esm2_head_params	19988608		R	[cut] "20.0M (84.4%) are the head sitting on top of ESM-2's output"
+model.esm2_head_pct	84.4		R	[cut] same
+model.scratch_transformer_params	1074048		R	[cut] "about 1.1M parameters - 4 layers, 128 dimensions, 4 heads"
