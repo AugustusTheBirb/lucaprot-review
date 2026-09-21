@@ -1,6 +1,6 @@
 Note on AI use: all of the code for this project was written with the help of claude code with Opus 5. Design, ideas and mistakes are my own. 
 
-[The blogpost is available on Substack]([url](https://augustasr.substack.com/p/homology-leakage-in-lucaprot))
+[The blogpost is available on Substack](https://augustasr.substack.com/p/homology-leakage-in-lucaprot)
 
 # Reproducing every number in the post 
 
